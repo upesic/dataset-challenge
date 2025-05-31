@@ -22,3 +22,22 @@ type Column<T> = {
   title: string;
   render: (row: T) => React.ReactNode;
 };
+
+interface BaseFieldProps {
+  id?: string;
+  name: string;
+  label?: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  labelClassName?: string;
+  fieldClassName?: string;
+}
+
+export interface TextFieldProps extends BaseFieldProps {
+  value: string;
+  onKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => void;
+  placeholder?: string;
+}
+
+export interface CheckboxFieldProps extends BaseFieldProps {
+  checked: boolean;
+}

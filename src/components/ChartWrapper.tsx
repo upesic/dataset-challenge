@@ -4,6 +4,7 @@ import {
 import { useState, memo } from 'react';
 import type { Transformer } from '../types';
 import dayjs from 'dayjs';
+import CheckboxField from './CheckboxField';
 
 const randomColors = ['#FF0000', "#FFA500", "#4B0082", "#008000", "#0000FF"]
 
@@ -44,14 +45,13 @@ const ChartWrapper = memo(({ data }: { data: Transformer[] }) => {
       <h3 className='text-2xl font-bold mb-2'>Transformers chart</h3>
       <div className="flex flex-wrap gap-4 mb-4">
         {data.map(transformer => (
-          <label key={transformer.assetId} className="text-[#449ed8] flex items-center gap-1">
-            <input
-              type="checkbox"
-              checked={selectedIds.includes(transformer.assetId)}
-              onChange={() => handleCheckboxToggle(transformer.assetId)}
-            />
-            {transformer.name}
-          </label>
+          <CheckboxField
+            key={transformer.assetId}
+            name={transformer.name}
+            label={transformer.name}
+            labelClassName={'text-[#449ed8]'}
+            checked={selectedIds.includes(transformer.assetId)}
+            onChange={() => handleCheckboxToggle(transformer.assetId)} />
         ))}
       </div>
 
