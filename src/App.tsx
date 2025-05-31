@@ -3,6 +3,7 @@ import type { Transformer } from './types';
 import TransformerTable from './components/TransformerTable';
 import SearchInput from './components/SearchInput';
 import Spinner from './components/Spinner';
+import ChartWrapper from './components/ChartWrapper';
 
 const App = () => {
   const [isPending, startTransition] = useTransition();
@@ -51,11 +52,14 @@ const App = () => {
         {error && <p className='mt-2'>{error}</p>}
         {
           <>
-            <div>
-              <div className="flex justify-between items-center mt-2 mb-4">
-                <SearchInput onSearch={handleSearchSubmit} placeholder={'Search by name...'} />
+            <div className='flex justify-center flex-col gap-6'>
+              <div className='flex justify-center flex-col'>
+                <div className="flex justify-between items-center mt-2 mb-4">
+                  <SearchInput onSearch={handleSearchSubmit} placeholder={'Search by name...'} />
+                </div>
+                <TransformerTable data={searchResults} />
               </div>
-              <TransformerTable data={searchResults} />
+              {data.length > 0 && <ChartWrapper data={data} />}
             </div>
           </>
         }
