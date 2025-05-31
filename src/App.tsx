@@ -11,7 +11,7 @@ const App = () => {
   const [data, setData] = useState<Transformer[]>([]);
   const [error, setError] = useState<string>('');
   const [searchResults, setSearchResults] = useState<Transformer[]>([]);
-  const [regionFilter, setRegionFilter] = useState<string>('All');
+  const [regionFilter, setRegionFilter] = useState<string>(localStorage.getItem('filterValue') || 'All');
 
   useEffect(() => {
     startTransition(() => {
@@ -21,6 +21,10 @@ const App = () => {
 
   useEffect(() => {
     setSearchResults(data);
+    const searchValue: string = localStorage.getItem('searchValue') || '';
+    if (searchValue) {
+      handleSearchSubmit(searchValue);
+    }
   }, [data]);
 
   const uniqueRegions = useMemo(() => {
@@ -53,15 +57,21 @@ const App = () => {
   };
 
 
-  const handleSearchSubmit = (term: string) => {
-    if (term.trim() === "") {
+  const handleSearchSubmit = (value: string) => {
+    if (value.trim() === "") {
       setSearchResults(data);
     } else {
       const filtered = data.filter((transformer) => {
-        return transformer.name.toLowerCase().includes(term.toLowerCase());
+        return transformer.name.toLowerCase().includes(value.toLowerCase());
       });
       setSearchResults(filtered);
     }
+  };
+
+  const handleRegionChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const val = e.target.value;
+    setRegionFilter(val);
+    localStorage.setItem('filterValue', val);
   };
 
   return (
@@ -80,7 +90,7 @@ const App = () => {
                       name={'filter'}
                       label={'Filter by region'}
                       value={regionFilter}
-                      onSelectChange={(e) => setRegionFilter(e.target.value)}
+                      onSelectChange={handleRegionChange}
                       labelClassName={'font-semibold'}
                       options={filterOptions}
                     />

@@ -1,19 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { MagnifyingGlassIcon } from '@heroicons/react/16/solid';
 import { XMarkIcon } from '@heroicons/react/16/solid';
 import TextField from './TextField';
 import type { SearchInputProps } from '../types';
 
 const SearchInput: React.FC<SearchInputProps> = ({ onSearch, placeholder = "Search..." }) => {
-  const [searchTerm, setSearchTerm] = useState("");
-
-  useEffect(() => {
-    setSearchTerm("");
-  }, []);
+  const [searchTerm, setSearchTerm] = useState<string>(localStorage.getItem('searchValue') || '');
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const val = e.target.value;
     setSearchTerm(val);
+    localStorage.setItem('searchValue', val);
 
     if (val === "") {
       onSearch("");
@@ -23,16 +20,19 @@ const SearchInput: React.FC<SearchInputProps> = ({ onSearch, placeholder = "Sear
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       e.preventDefault();
+      localStorage.setItem('searchValue', searchTerm);
       onSearch(searchTerm);
     }
   };
 
   const handleClear = () => {
+    localStorage.setItem('searchValue', '');
     setSearchTerm("");
     onSearch("");
   };
 
   const triggerSearch = () => {
+    localStorage.setItem('searchValue', searchTerm);
     onSearch(searchTerm);
   };
 

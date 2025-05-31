@@ -9,12 +9,37 @@ import CheckboxField from './CheckboxField';
 const randomColors = ['#FF0000', "#FFA500", "#4B0082", "#008000", "#0000FF"]
 
 const ChartWrapper: React.FC<ChartProps> = memo(({ data }) => {
-  const [selectedIds, setSelectedIds] = useState<number[]>(data.map(t => t.assetId));
+  const [selectedIds, setSelectedIds] = useState<number[]>(() => {
+    const saved = localStorage.getItem('selectedIds');
+    return saved ? JSON.parse(saved) : data.map(t => t.assetId);
+  });
+
+  // Optional: Sync selection across tabs using localStorage 'storage' event
+  // Commented out intentionally to preserve independent transformer selections per tab
+  // Uncomment and import useEffect if consistent cross-tab state is preferred UX-wise
+
+  /* useEffect(() => {
+     const syncSelection = (e: StorageEvent) => {
+       if (e.key === 'selectedIds') {
+         const newVal = e.newValue ? JSON.parse(e.newValue) : [];
+         setSelectedIds(newVal);
+       }
+     };
+ 
+     window.addEventListener('storage', syncSelection);
+     return () => window.removeEventListener('storage', syncSelection);
+   }, []);
+   */
 
   const handleCheckboxToggle = (id: number) => {
-    setSelectedIds(prev =>
-      prev.includes(id) ? prev.filter(i => i !== id) : [...prev, id]
-    );
+    setSelectedIds(prev => {
+      const updated = prev.includes(id)
+        ? prev.filter(i => i !== id)
+        : [...prev, id];
+
+      localStorage.setItem('selectedIds', JSON.stringify(updated));
+      return updated;
+    });
   };
 
   const allTimestamps = Array.from(
