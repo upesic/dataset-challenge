@@ -1,11 +1,7 @@
-import type { Transformer } from '../types';
+import type { Transformer, TransformerTableProps } from '../types';
 import DataTable from './DataTable';
 
-interface TransformerTableProps {
-  data: Transformer[];
-};
-
-const TransformerTable = ({ data }: TransformerTableProps) => {
+const TransformerTable: React.FC<TransformerTableProps> = ({ data }) => {
   const columns = [
     {
       key: "name",

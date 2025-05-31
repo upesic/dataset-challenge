@@ -7,7 +7,7 @@ const DataTable = <T,>({
 }: DataTableProps<T>) => {
   return (
     <div className={`mt-2 ${className}`}>
-      <table className="min-w-full table-auto md:table-fixed text-sm shadow-2xl rounded-[5px]">
+      <table className="min-w-full table-auto md:table-fixed text-sm shadow-md rounded-[5px]">
         <thead>
           <tr className="text-left font-bold text-sm bg-[#D0D0D0] text-white">
             {columns.map((col) => (

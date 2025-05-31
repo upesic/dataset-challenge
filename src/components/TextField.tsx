@@ -1,6 +1,7 @@
 import type { TextFieldProps } from '../types';
 
-const TextField = ({ id, name, label = '', value, onChange, onKeyDown, labelClassName = '', fieldClassName = '', placeholder = '' }: TextFieldProps) => {
+const TextField: React.FC<TextFieldProps> = (props) => {
+  const { id, name, label = '', value, onChange, onKeyDown, labelClassName = '', fieldClassName = '', placeholder = '' } = props
   const inputId = id || name.toLowerCase();
 
   return (

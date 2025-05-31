@@ -1,6 +1,7 @@
 import type { CheckboxFieldProps } from '../types';
 
-const CheckboxField = ({ id, name, label = '', checked, onChange, labelClassName = '', fieldClassName = '' }: CheckboxFieldProps) => {
+const CheckboxField: React.FC<CheckboxFieldProps> = (props) => {
+  const { id, name, label = '', checked, onChange, labelClassName = '', fieldClassName = '' } = props;
   const inputId = id || name.toLowerCase();
 
   return (

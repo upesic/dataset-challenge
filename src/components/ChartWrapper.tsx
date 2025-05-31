@@ -2,13 +2,13 @@ import {
   LineChart, Line, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer,
 } from 'recharts';
 import { useState, memo } from 'react';
-import type { Transformer } from '../types';
+import type { ChartProps } from '../types';
 import dayjs from 'dayjs';
 import CheckboxField from './CheckboxField';
 
 const randomColors = ['#FF0000', "#FFA500", "#4B0082", "#008000", "#0000FF"]
 
-const ChartWrapper = memo(({ data }: { data: Transformer[] }) => {
+const ChartWrapper: React.FC<ChartProps> = memo(({ data }) => {
   const [selectedIds, setSelectedIds] = useState<number[]>(data.map(t => t.assetId));
 
   const handleCheckboxToggle = (id: number) => {
@@ -41,9 +41,9 @@ const ChartWrapper = memo(({ data }: { data: Transformer[] }) => {
   });
 
   return (
-    <div>
-      <h3 className='text-2xl font-bold mb-2'>Transformers chart</h3>
-      <div className="flex flex-wrap gap-4 mb-4">
+    <div className='shadow-md rounded-[5px]'>
+      <h3 className='text-2xl font-bold m-2'>Transformers chart</h3>
+      <div className="flex flex-wrap gap-4 p-4">
         {data.map(transformer => (
           <CheckboxField
             key={transformer.assetId}

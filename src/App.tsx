@@ -1,15 +1,17 @@
-import { useEffect, useState, useTransition } from 'react';
-import type { Transformer } from './types';
+import { useEffect, useMemo, useState, useTransition } from 'react';
+import type { Transformer, Option } from './types';
 import TransformerTable from './components/TransformerTable';
 import SearchInput from './components/SearchInput';
 import Spinner from './components/Spinner';
 import ChartWrapper from './components/ChartWrapper';
+import SelectField from './components/SelectField';
 
 const App = () => {
   const [isPending, startTransition] = useTransition();
   const [data, setData] = useState<Transformer[]>([]);
   const [error, setError] = useState<string>('');
   const [searchResults, setSearchResults] = useState<Transformer[]>([]);
+  const [regionFilter, setRegionFilter] = useState<string>('All');
 
   useEffect(() => {
     startTransition(() => {
@@ -20,6 +22,23 @@ const App = () => {
   useEffect(() => {
     setSearchResults(data);
   }, [data]);
+
+  const uniqueRegions = useMemo(() => {
+    const regions = data.map(t => t.region);
+    return ['All', ...Array.from(new Set(regions))];
+  }, [data]);
+
+  const filterOptions: Option[] = useMemo(() => {
+    return uniqueRegions.map(region => (
+      { value: region, label: region }
+    ))
+  }, [uniqueRegions]);
+
+  const filteredResults = useMemo(() => {
+    return searchResults.filter(t =>
+      regionFilter === 'All' || t.region === regionFilter
+    );
+  }, [searchResults, regionFilter]);
 
 
   const fetchTableData = async () => {
@@ -56,8 +75,19 @@ const App = () => {
               <div className='flex justify-center flex-col'>
                 <div className="flex justify-between items-center mt-2 mb-4">
                   <SearchInput onSearch={handleSearchSubmit} placeholder={'Search by name...'} />
+                  <div className={'flex justify-between gap-2'}>
+                    <SelectField
+                      name={'filter'}
+                      label={'Filter by region'}
+                      value={regionFilter}
+                      onSelectChange={(e) => setRegionFilter(e.target.value)}
+                      labelClassName={'font-semibold'}
+                      options={filterOptions}
+                    />
+                  </div>
+
                 </div>
-                <TransformerTable data={searchResults} />
+                <TransformerTable data={filteredResults} />
               </div>
               {data.length > 0 && <ChartWrapper data={data} />}
             </div>

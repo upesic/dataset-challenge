@@ -2,11 +2,7 @@ import React, { useState, useEffect } from "react";
 import { MagnifyingGlassIcon } from '@heroicons/react/16/solid';
 import { XMarkIcon } from '@heroicons/react/16/solid';
 import TextField from './TextField';
-
-interface SearchInputProps {
-  onSearch: (term: string) => void;
-  placeholder?: string;
-};
+import type { SearchInputProps } from '../types';
 
 const SearchInput: React.FC<SearchInputProps> = ({ onSearch, placeholder = "Search..." }) => {
   const [searchTerm, setSearchTerm] = useState("");
