@@ -1,1 +1,36 @@
 @import "tailwindcss";
+
+.transformer-table table thead tr th:first-child {
+  border-top-left-radius: 5px;
+}
+
+.transformer-table table thead tr th:last-child {
+  border-top-right-radius: 5px;
+}
+
+input::placeholder {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+@keyframes fade-in-out {
+  0% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+
+  10%,
+  90% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+}
+
+.animate-fade-in-out {
+  animation: fade-in-out 3s ease-in-out forwards;
+}
