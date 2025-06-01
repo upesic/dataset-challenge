@@ -1,11 +1,23 @@
 @import "tailwindcss";
 
-.transformer-table table thead tr th:first-child {
+.transformers-table table thead tr th:first-child {
   border-top-left-radius: 5px;
 }
 
-.transformer-table table thead tr th:last-child {
+.transformers-table table thead tr th:last-child {
   border-top-right-radius: 5px;
+}
+
+.transformers-table table tbody tr:last-child td:last-child {
+  border-end-end-radius: 5px;
+}
+
+.transformers-table table tbody tr:last-child td:first-child {
+  border-bottom-left-radius: 5px;
+}
+
+.transformers-table table {
+  @apply min-w-full table-auto md:table-fixed text-sm shadow-md rounded-[5px] border border-[#f0f0f0];
 }
 
 input::placeholder {
@@ -33,4 +45,16 @@ input::placeholder {
 
 .animate-fade-in-out {
   animation: fade-in-out 3s ease-in-out forwards;
+}
+
+.input-search {
+  flex: 1;
+  outline: none !important;
+  color: white !important;
+  background: unset !important;
+  border: none !important;
+}
+
+.ant-checkbox-label {
+  color: #449ed8;
 }

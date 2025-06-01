@@ -9,7 +9,7 @@ interface TransformersState {
   isLoading: boolean;
   error: any;
   searchValue: string;
-  selectedIds: number[]
+  selectedIds: number[] | undefined;
 }
 
 const initialState: TransformersState = {
@@ -19,7 +19,7 @@ const initialState: TransformersState = {
   isLoading: false,
   error: '',
   searchValue: '',
-  selectedIds: []
+  selectedIds: undefined
 };
 
 export const fetchTransformersAsync = createAsyncThunk(
@@ -50,7 +50,8 @@ const transformersSlice = createSlice({
     },
     setSelectedIds: (state, action: PayloadAction<number>) => {
       const id = action.payload;
-      state.selectedIds = state.selectedIds.includes(id) ? state.selectedIds.filter(i => i !== id) : [...state.selectedIds, id];
+      const current = state.selectedIds ?? [];
+      state.selectedIds = current.includes(id) ? current.filter(i => i !== id) : [...current, id];
     },
     resetState: () => initialState
   },
@@ -72,7 +73,7 @@ const transformersSlice = createSlice({
         state.data = action.payload;
         state.searchResults = action.payload;
 
-        if (state.selectedIds.length === 0) {
+        if (!state.selectedIds) {
           state.selectedIds = action.payload.map(t => t.assetId);
         }
       });

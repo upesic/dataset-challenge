@@ -4,9 +4,9 @@ import {
 import { memo } from 'react';
 import type { ChartProps } from '../types';
 import dayjs from 'dayjs';
-import CheckboxField from './CheckboxField';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { setSelectedIds } from '../store/slices/transformerSlice';
+import { Checkbox } from "antd";
 
 const randomColors = ['#FF0000', "#FFA500", "#4B0082", "#008000", "#0000FF"]
 
@@ -46,13 +46,13 @@ const ChartWrapper: React.FC<ChartProps> = memo(({ data }) => {
       <h3 className='text-2xl font-bold m-2'>Transformers chart</h3>
       <div className="flex flex-wrap gap-4 p-4">
         {data.map(transformer => (
-          <CheckboxField
+          <Checkbox
             key={transformer.assetId}
             name={transformer.name}
-            label={transformer.name}
-            labelClassName={'text-[#449ed8]'}
-            checked={selectedIds.includes(transformer.assetId)}
-            onChange={() => handleCheckboxToggle(transformer.assetId)} />
+            checked={selectedIds?.includes(transformer.assetId)}
+            onChange={() => handleCheckboxToggle(transformer.assetId)}
+          >{transformer.name}
+          </Checkbox>
         ))}
       </div>
 
@@ -63,7 +63,7 @@ const ChartWrapper: React.FC<ChartProps> = memo(({ data }) => {
           <Tooltip />
           <Legend />
           {data
-            .filter(t => selectedIds.includes(t.assetId))
+            .filter(t => selectedIds?.includes(t.assetId))
             .map((t, index) => (
               <Line
                 key={t.assetId}

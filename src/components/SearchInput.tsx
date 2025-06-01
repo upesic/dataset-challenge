@@ -1,10 +1,10 @@
 import React from "react";
 import { MagnifyingGlassIcon } from '@heroicons/react/16/solid';
 import { XMarkIcon } from '@heroicons/react/16/solid';
-import TextField from './TextField';
 import type { SearchInputProps } from '../types';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { setSearchValue } from '../store/slices/transformerSlice';
+import { Input } from 'antd';
 
 const SearchInput: React.FC<SearchInputProps> = ({ onSearch, placeholder = "Search..." }) => {
   const dispatch = useAppDispatch();
@@ -38,13 +38,13 @@ const SearchInput: React.FC<SearchInputProps> = ({ onSearch, placeholder = "Sear
   return (
     <div className="flex items-center bg-[#449ed8] rounded-[5px] px-2 py-1">
       <MagnifyingGlassIcon onClick={triggerSearch} className='cursor-pointer size-4 text-white' />
-      <TextField
-        name={'search'}
+      <Input
+        name='search'
         value={searchValue}
         placeholder={placeholder}
         onChange={handleChange}
         onKeyDown={handleKeyDown}
-        fieldClassName='flex-1 outline-none ml-1 text-white'
+        className={'input-search'}
       />
       {searchValue && (
         <XMarkIcon onClick={handleClear} className='cursor-pointer size-4 text-white' />
