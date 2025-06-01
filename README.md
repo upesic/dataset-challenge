@@ -4,16 +4,16 @@ This is a web application that ingests Transformer asset data from a JSON datase
 
 ## Features
 
-- Asset search and filtering by region
+- Asset search by name and filtering by region
 - Line chart visualization of voltage readings
 - Persistent UI state across tabs and refresh
 - Two implementation approaches:
-  - **main branch** – native React state & built-in components
-  - **feat/redux-antd branch** – enhanced version with `redux-persist` and `Ant Design` UI components
+  - **main** branch – native React state & built-in components
+  - **feat/redux-antd** branch – enhanced version with `redux-persist` and `Ant Design` UI components
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 - **React 19 + Vite**
 - **TypeScript**
