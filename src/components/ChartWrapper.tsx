@@ -74,7 +74,7 @@ const ChartWrapper: React.FC<ChartProps> = memo(({ data }) => {
             key={transformer.assetId}
             name={transformer.name}
             label={transformer.name}
-            labelClassName={'text-[#449ed8]'}
+            labelClassName={'text-accent'}
             checked={selectedIds.includes(transformer.assetId)}
             onChange={() => handleCheckboxToggle(transformer.assetId)} />
         ))}

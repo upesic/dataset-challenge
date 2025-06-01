@@ -9,7 +9,7 @@ const DataTable = <T,>({
     <div className={`mt-2 ${className}`}>
       <table className="min-w-full table-auto md:table-fixed text-sm shadow-md rounded-[5px]">
         <thead>
-          <tr className="text-left font-bold text-sm bg-[#D0D0D0] text-white">
+          <tr className="text-left font-bold text-sm bg-secondary text-primary">
             {columns.map((col) => (
               <th
                 key={col.key}

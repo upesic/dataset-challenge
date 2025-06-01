@@ -18,6 +18,7 @@ const TextField: React.FC<TextFieldProps> = (props) => {
         onKeyDown={onKeyDown}
         className={fieldClassName}
         value={value}
+        autoComplete='off'
       />
     </>
 

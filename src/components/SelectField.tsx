@@ -15,7 +15,7 @@ const SelectField: React.FC<SelectProps> = (props) => {
         value={value}
         name={name}
         onChange={onSelectChange}
-        className={`bg-[#449ed8] p-1 rounded-[5px] text-sm text-white font-semibold focus:outline-none ${fieldClassName}`}
+        className={`bg-accent p-1 rounded-[5px] text-sm text-primary font-semibold focus:outline-none ${fieldClassName}`}
       >
         {options.length === 0 ? (
           <option disabled>No options</option>

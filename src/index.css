@@ -1,5 +1,24 @@
 @import "tailwindcss";
 
+:root {
+  --foreground: #1b150e;
+  --primary: #ffffff;
+  --secondary: #D0D0D0;
+  --accent: #449ed8;
+}
+
+@theme inline {
+  --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-secondary: var(--secondary);
+  --color-accent: var(--accent);
+}
+
+body {
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
 .transformer-table table thead tr th:first-child {
   border-top-left-radius: 5px;
 }
