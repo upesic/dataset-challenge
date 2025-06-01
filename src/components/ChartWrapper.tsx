@@ -1,45 +1,21 @@
 import {
   LineChart, Line, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer,
 } from 'recharts';
-import { useState, memo } from 'react';
+import { memo } from 'react';
 import type { ChartProps } from '../types';
 import dayjs from 'dayjs';
 import CheckboxField from './CheckboxField';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
+import { setSelectedIds } from '../store/slices/transformerSlice';
 
 const randomColors = ['#FF0000', "#FFA500", "#4B0082", "#008000", "#0000FF"]
 
 const ChartWrapper: React.FC<ChartProps> = memo(({ data }) => {
-  const [selectedIds, setSelectedIds] = useState<number[]>(() => {
-    const saved = localStorage.getItem('selectedIds');
-    return saved ? JSON.parse(saved) : data.map(t => t.assetId);
-  });
-
-  // Optional: Sync selection across tabs using localStorage 'storage' event
-  // Commented out intentionally to preserve independent transformer selections per tab
-  // Uncomment and import useEffect if consistent cross-tab state is preferred UX-wise
-
-  /* useEffect(() => {
-     const syncSelection = (e: StorageEvent) => {
-       if (e.key === 'selectedIds') {
-         const newVal = e.newValue ? JSON.parse(e.newValue) : [];
-         setSelectedIds(newVal);
-       }
-     };
- 
-     window.addEventListener('storage', syncSelection);
-     return () => window.removeEventListener('storage', syncSelection);
-   }, []);
-   */
+  const dispatch = useAppDispatch();
+  const { selectedIds } = useAppSelector(state => state.transformers);
 
   const handleCheckboxToggle = (id: number) => {
-    setSelectedIds(prev => {
-      const updated = prev.includes(id)
-        ? prev.filter(i => i !== id)
-        : [...prev, id];
-
-      localStorage.setItem('selectedIds', JSON.stringify(updated));
-      return updated;
-    });
+    dispatch(setSelectedIds(id));
   };
 
   const allTimestamps = Array.from(

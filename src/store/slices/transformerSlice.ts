@@ -9,6 +9,7 @@ interface TransformersState {
   isLoading: boolean;
   error: any;
   searchValue: string;
+  selectedIds: number[]
 }
 
 const initialState: TransformersState = {
@@ -17,7 +18,8 @@ const initialState: TransformersState = {
   regionFilter: 'All',
   isLoading: false,
   error: '',
-  searchValue: ''
+  searchValue: '',
+  selectedIds: []
 };
 
 export const fetchTransformersAsync = createAsyncThunk(
@@ -46,6 +48,10 @@ const transformersSlice = createSlice({
       console.log(action.payload)
       state.searchValue = action.payload;
     },
+    setSelectedIds: (state, action: PayloadAction<number>) => {
+      const id = action.payload;
+      state.selectedIds = state.selectedIds.includes(id) ? state.selectedIds.filter(i => i !== id) : [...state.selectedIds, id];
+    },
     resetState: () => initialState
   },
   extraReducers: (builder) => {
@@ -58,15 +64,20 @@ const transformersSlice = createSlice({
         state.searchResults = initialState.searchResults;
         state.isLoading = false;
         state.error = action.payload;
+        state.selectedIds = [];
       })
       .addCase(fetchTransformersAsync.fulfilled, (state, action: PayloadAction<Transformer[]>) => {
         state.error = '';
         state.isLoading = false;
         state.data = action.payload;
         state.searchResults = action.payload;
+
+        if (state.selectedIds.length === 0) {
+          state.selectedIds = action.payload.map(t => t.assetId);
+        }
       });
   }
 });
 
-export const { setSearchResults, setRegionFilter, resetState, setSearchValue } = transformersSlice.actions;
+export const { setSearchResults, setRegionFilter, resetState, setSearchValue, setSelectedIds } = transformersSlice.actions;
 export default transformersSlice.reducer;
