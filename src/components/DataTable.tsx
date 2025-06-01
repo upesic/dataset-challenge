@@ -23,7 +23,7 @@ const DataTable = <T,>({
           </tr>
         </thead>
         <tbody>
-          {data.map((row: T, index: number) => (
+          {data.length === 0 ? <tr><td>No data</td></tr> : data.map((row: T, index: number) => (
             <tr key={index} className={`border-t border-[#D8D8D8]`}>
               {columns.map((col) => (
                 <td key={col.key} className="py-2 px-4 text-sm font-semibold">
