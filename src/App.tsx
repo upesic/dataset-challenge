@@ -1,22 +1,21 @@
-import { useEffect, useMemo, useState, useTransition } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import type { Transformer, Option } from './types';
 import TransformerTable from './components/TransformerTable';
 import SearchInput from './components/SearchInput';
 import Spinner from './components/Spinner';
 import ChartWrapper from './components/ChartWrapper';
 import SelectField from './components/SelectField';
+import { fetchTransformers } from './lib/api';
 
 const App = () => {
-  const [isPending, startTransition] = useTransition();
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [data, setData] = useState<Transformer[]>([]);
   const [error, setError] = useState<string>('');
   const [searchResults, setSearchResults] = useState<Transformer[]>([]);
   const [regionFilter, setRegionFilter] = useState<string>(localStorage.getItem('filterValue') || 'All');
 
   useEffect(() => {
-    startTransition(() => {
-      fetchTableData();
-    })
+    fetchTableData();
   }, []);
 
   useEffect(() => {
@@ -47,12 +46,14 @@ const App = () => {
 
   const fetchTableData = async () => {
     try {
-      const response = await fetch("http://localhost:8000/sampledata/");
-      const jsonResponse = await response.json();
-      setData(jsonResponse);
+      setIsLoading(true);
+      const response = await fetchTransformers()
+      setData(response);
     } catch (error) {
-      setError(`Error while fetching data: ${error}`)
-      return Promise.reject(error);
+      setError(`Error: ${error}`)
+      console.error(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -75,37 +76,35 @@ const App = () => {
   };
 
   return (
-    <>
-      <div className={'min-h-screen flex p-4 justify-center'}>
-        {isPending && <Spinner />}
-        {error && <p className='mt-2'>{error}</p>}
-        {
-          <>
-            <div className='flex flex-col gap-6'>
-              <div className='flex justify-center flex-col'>
-                <div className="flex justify-between items-center mt-2 mb-4">
-                  <SearchInput onSearch={handleSearchSubmit} placeholder={'Search by name...'} />
-                  <div className={'flex justify-between gap-2'}>
-                    <SelectField
-                      name={'filter'}
-                      label={'Filter by region'}
-                      value={regionFilter}
-                      onSelectChange={handleRegionChange}
-                      labelClassName={'font-semibold'}
-                      options={filterOptions}
-                    />
-                  </div>
-
-                </div>
-                <TransformerTable data={filteredResults} />
+    <div className={'min-h-screen flex p-4 justify-center'}>
+      {isLoading ? (
+        <Spinner />
+      ) : error ? (
+        <p className='mt-2'>{error}</p>
+      ) : (
+        <div className='flex flex-col gap-6'>
+          <div className='flex justify-center flex-col'>
+            <div className="flex justify-between items-center mt-2 mb-4">
+              <SearchInput onSearch={handleSearchSubmit} placeholder={'Search by name...'} />
+              <div className={'flex justify-between gap-2'}>
+                <SelectField
+                  name={'filter'}
+                  label={'Filter by region'}
+                  value={regionFilter}
+                  onSelectChange={handleRegionChange}
+                  labelClassName={'font-semibold'}
+                  options={filterOptions}
+                />
               </div>
-              {data.length > 0 && <ChartWrapper data={data} />}
-            </div>
-          </>
-        }
-      </div>
-    </>
-  )
-}
 
-export default App
+            </div>
+            <TransformerTable data={filteredResults} />
+          </div>
+          {data.length > 0 && <ChartWrapper data={data} />}
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default App;
