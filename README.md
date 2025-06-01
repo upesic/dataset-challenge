@@ -1,54 +1,79 @@
-# React + TypeScript + Vite
+# Transformer Asset Dashboard
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is a web application that ingests Transformer asset data from a JSON dataset and visualizes it to the user in both a **tabular** and **line-chart** format.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Asset search by name and filtering by region
+- Line chart visualization of voltage readings
+- Persistent UI state across tabs and refresh
+- Two implementation approaches:
+  - **main** branch – native React state & built-in components
+  - **feat/redux-antd** branch – enhanced version with `redux-persist` and `Ant Design` UI components
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Tech Stack
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+- **React 19 + Vite**
+- **TypeScript**
+- **Redux Toolkit + redux-persist**
+- **Ant Design**
+- **Tailwind CSS**
+- **Recharts** for data visualization
+- **Docker** for containerized development
+
+---
+
+## Getting Started
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/upesic/dataset-challenge.git
+cd dataset-challenge
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Running the App
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
+### Option 1: Using Docker (Recommended)
+
+> Before you begin, install [Docker Desktop](https://docs.docker.com/get-docker/) and make sure the Docker engine is running.
+
+Start the app with:
+
+```bash
+docker-compose up -d
 ```
+
+If you're running it for the first time or want to rebuild containers, use:
+
+```bash
+docker-compose up -d --build
+```
+
+App will be available at: [http://localhost:8080](http://localhost:8080)
+
+---
+
+### Option 2: Manual Setup
+
+> Use this if Docker is not available or you encounter any issues running containers.
+
+1. Install dependencies:
+
+```bash
+npm install
+```
+
+2. Run the development server:
+
+```bash
+npm run dev
+```
+
+App will be available at: [http://localhost:5173](http://localhost:5173)
+
+---
