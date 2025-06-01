@@ -45,17 +45,17 @@ cd dataset-challenge
 Start the app with:
 
 ```bash
-docker-compose up -d
+docker-compose up
 ```
 
 If you're running it for the first time or want to rebuild containers, use:
 
 ```bash
-docker-compose up -d --build
+docker-compose up --build
 ```
 
-App will be available at: [http://localhost:8080](http://localhost:8080)
-
+Wait until both containers (`frontend` and `backend`) are fully initialized. You can monitor their logs directly in the terminal window.
+App will be available at: [http://localhost:5173/](http://localhost:5173/)
 ---
 
 ### Option 2: Manual Setup
