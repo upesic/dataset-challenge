@@ -34,6 +34,11 @@ git clone https://github.com/upesic/dataset-challenge.git
 cd dataset-challenge
 ```
 
+### 2. Checkout to branch
+```bash
+git checkout feat/redux-antd
+```
+
 ---
 
 ## Running the App
