@@ -1,26 +1,24 @@
-import { useEffect, useMemo, useState } from 'react';
-import type { Transformer, Option } from './types';
+import { useEffect, useMemo } from 'react';
+import type { Option } from './types';
 import TransformerTable from './components/TransformerTable';
 import SearchInput from './components/SearchInput';
 import Spinner from './components/Spinner';
 import ChartWrapper from './components/ChartWrapper';
 import SelectField from './components/SelectField';
-import { fetchTransformers } from './lib/api';
+import { useAppDispatch, useAppSelector } from './store/hooks';
+import { fetchTransformersAsync, setRegionFilter, setSearchResults } from './store/slices/transformerSlice';
 
 const App = () => {
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [data, setData] = useState<Transformer[]>([]);
-  const [error, setError] = useState<string>('');
-  const [searchResults, setSearchResults] = useState<Transformer[]>([]);
-  const [regionFilter, setRegionFilter] = useState<string>(localStorage.getItem('filterValue') || 'All');
+
+  const dispatch = useAppDispatch();
+  const { data, searchResults, regionFilter, isLoading, error, searchValue } = useAppSelector(state => state.transformers);
 
   useEffect(() => {
-    fetchTableData();
+    dispatch(fetchTransformersAsync())
   }, []);
 
   useEffect(() => {
-    setSearchResults(data);
-    const searchValue: string = localStorage.getItem('searchValue') || '';
+    dispatch(setSearchResults(data));
     if (searchValue) {
       handleSearchSubmit(searchValue);
     }
@@ -44,35 +42,20 @@ const App = () => {
   }, [searchResults, regionFilter]);
 
 
-  const fetchTableData = async () => {
-    try {
-      setIsLoading(true);
-      const response = await fetchTransformers()
-      setData(response);
-    } catch (error) {
-      setError(`Error: ${error}`)
-      console.error(error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-
   const handleSearchSubmit = (value: string) => {
     if (value.trim() === "") {
-      setSearchResults(data);
+      dispatch(setSearchResults(data));
     } else {
       const filtered = data.filter((transformer) => {
         return transformer.name.toLowerCase().includes(value.toLowerCase());
       });
-      setSearchResults(filtered);
+      dispatch(setSearchResults(filtered));
     }
   };
 
   const handleRegionChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const val = e.target.value;
-    setRegionFilter(val);
-    localStorage.setItem('filterValue', val);
+    dispatch(setRegionFilter(val))
   };
 
   return (
