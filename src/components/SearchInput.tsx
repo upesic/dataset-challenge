@@ -36,8 +36,8 @@ const SearchInput: React.FC<SearchInputProps> = ({ onSearch, placeholder = "Sear
   };
 
   return (
-    <div className="flex items-center bg-[#449ed8] rounded-[5px] px-2 py-1">
-      <MagnifyingGlassIcon onClick={triggerSearch} className='cursor-pointer size-4 text-white' />
+    <div className="flex items-center bg-accent rounded-[5px] px-2 py-1">
+      <MagnifyingGlassIcon onClick={triggerSearch} className='cursor-pointer size-4 text-primary' />
       <Input
         name='search'
         value={searchValue}
@@ -45,9 +45,10 @@ const SearchInput: React.FC<SearchInputProps> = ({ onSearch, placeholder = "Sear
         onChange={handleChange}
         onKeyDown={handleKeyDown}
         className={'input-search'}
+        autoComplete='off'
       />
       {searchValue && (
-        <XMarkIcon onClick={handleClear} className='cursor-pointer size-4 text-white' />
+        <XMarkIcon onClick={handleClear} className='cursor-pointer size-4 text-primary' />
       )}
     </div>
   );

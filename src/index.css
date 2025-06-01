@@ -1,5 +1,24 @@
 @import "tailwindcss";
 
+:root {
+  --foreground: #1b150e;
+  --primary: #ffffff;
+  --secondary: #f0f0f0;
+  --accent: #449ed8;
+}
+
+@theme inline {
+  --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-secondary: var(--secondary);
+  --color-accent: var(--accent);
+}
+
+body {
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
 .transformers-table table thead tr th:first-child {
   border-top-left-radius: 5px;
 }
@@ -17,7 +36,7 @@
 }
 
 .transformers-table table {
-  @apply min-w-full table-auto md:table-fixed text-sm shadow-md rounded-[5px] border border-[#f0f0f0];
+  @apply min-w-full table-auto md:table-fixed text-sm shadow-md rounded-[5px] border border-secondary;
 }
 
 input::placeholder {
@@ -50,11 +69,11 @@ input::placeholder {
 .input-search {
   flex: 1;
   outline: none !important;
-  color: white !important;
+  color: var(--color-primary) !important;
   background: unset !important;
   border: none !important;
 }
 
 .ant-checkbox-label {
-  color: #449ed8;
+  color: var(--color-accent)
 }
