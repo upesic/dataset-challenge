@@ -54,6 +54,7 @@ If you're running it for the first time or want to rebuild containers, use:
 docker-compose up -d --build
 ```
 
+Wait until both containers (`frontend` and `backend`) are fully initialized. You can monitor their logs directly in the terminal window.
 App will be available at: [http://localhost:8080](http://localhost:8080)
 
 ---
